@@ -73,13 +73,13 @@ y=$(echo $var2 | tr -s '[:upper:]' '[:lower:]')
 if [[ "$var2" = "y" ]] ; then
 read -p "Enter the new port:" port
 #changing the port for tomcat
-sed -i "s/port=\"8080\"/port=\"$port\"/" apache-tomcat-8.5.49/conf/server.xml
+sed -i "s/port=\"8080\"/port=\"$port\"/" apache-tomcat-8.5.70-src/conf/server.xml
 else
 port=8080
 fi
 #creating users in tomcat-users.xml
 
-sed -i 's\</tomcat-users>\<!-- -->\g' apache-tomcat-8.5.49/conf/tomcat-users.xml
+sed -i 's\</tomcat-users>\<!-- -->\g' apache-tomcat-8.5.70-src/conf/tomcat-users.xml
 
 read -p "Do you want to use default username and password for manager_script and manager_gui [enter y/n]:" var3
 
@@ -95,11 +95,11 @@ read -p "Enter password for manager-GUI :" pwd_gui
 
 
 
-echo '<role rolename="manager-gui" />' >> apache-tomcat-8.5.49/conf/tomcat-users.xml
-echo "<user username=\"$user_gui\" password=\"$pwd_gui\" roles=\"manager-gui\" />" >> apache-tomcat-8.5.49/conf/tomcat-users.xml
-echo '<role rolename="manager-script" />' >> apache-tomcat-8.5.49/conf/tomcat-users.xml
-echo "<user username=\"$user_script\" password=\"$pwd_script\" roles=\"manager-script\" />" >> apache-tomcat-8.5.49/conf/tomcat-users.xml
-echo '</tomcat-users>' >> apache-tomcat-8.5.49/conf/tomcat-users.xml
+echo '<role rolename="manager-gui" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo "<user username=\"$user_gui\" password=\"$pwd_gui\" roles=\"manager-gui\" />" >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo '<role rolename="manager-script" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo "<user username=\"$user_script\" password=\"$pwd_script\" roles=\"manager-script\" />" >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo '</tomcat-users>' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
 
 
 else
@@ -110,23 +110,23 @@ echo "The default username/password for manager-script are {script/script}"
 
 echo "The default username/password for manager-script are {admin/admin}"
 
-echo '<role rolename="manager-gui" />' >> apache-tomcat-8.5.49/conf/tomcat-users.xml
-echo '<user username="admin" password="admin" roles="manager-gui" />' >> apache-tomcat-8.5.49/conf/tomcat-users.xml
-echo '<role rolename="manager-script" />' >> apache-tomcat-8.5.49/conf/tomcat-users.xml
-echo '<user username="script" password="script" roles="manager-script" />' >> apache-tomcat-8.5.49/conf/tomcat-users.xml
-echo '</tomcat-users>' >> apache-tomcat-8.5.49/conf/tomcat-users.xml
+echo '<role rolename="manager-gui" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo '<user username="admin" password="admin" roles="manager-gui" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo '<role rolename="manager-script" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo '<user username="script" password="script" roles="manager-script" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo '</tomcat-users>' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
 
 fi
 
 #setting valve in comments
 
-sed -i 's/<Valve /<!-- <Valve /' apache-tomcat-8.5.49/webapps/manager/META-INF/context.xml
+sed -i 's/<Valve /<!-- <Valve /' apache-tomcat-8.5.70-src/webapps/manager/META-INF/context.xml
 
-sed -i 's\:1" />\:1" /> -->\g' apache-tomcat-8.5.49/webapps/manager/META-INF/context.xml
+sed -i 's\:1" />\:1" /> -->\g' apache-tomcat-8.5.70-src/webapps/manager/META-INF/context.xml
 
 
 
 #running tomcat
-apache-tomcat-8.5.49/bin/./startup.sh
+apache-tomcat-8.5.70-src/bin/./startup.sh
 
 echo "tomcat is running on port : $port"
