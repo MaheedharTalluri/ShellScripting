@@ -43,17 +43,11 @@ fi
 
 #tomcat installation 
 
-
-#installing java
-sudo yum install java
-
-
-
 #downloading tomcat
-https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.70/src/apache-tomcat-8.5.70-src.tar.gz
+wget https://downloads.apache.org/tomcat/tomcat-8/v8.5.70/bin/apache-tomcat-8.5.70.tar.gz
 
 #unzipping tar file 
-tar -xvzf apache-tomcat-8.5.70-src.tar.gz
+tar -xvzf apache-tomcat-8.5.70.tar.gz
 
 
 read -p "do you want to delete the zip file [enter y/n]:" var1
@@ -63,7 +57,7 @@ y=$(echo $var1 | tr -s '[:upper:]' '[:lower:]')
 if [[ "$var1" = "y" ]] ; then
 
 #remove tomcat downloaded tar file
-rm -rf apache-tomcat-8.5.70-src .tar.gz
+rm -rf apache-tomcat-8.5.70.tar.gz
 fi
 
 read -p "Do you want to change port for tomcat [enter y/n]:" var2
@@ -73,13 +67,13 @@ y=$(echo $var2 | tr -s '[:upper:]' '[:lower:]')
 if [[ "$var2" = "y" ]] ; then
 read -p "Enter the new port:" port
 #changing the port for tomcat
-sed -i "s/port=\"8080\"/port=\"$port\"/" apache-tomcat-8.5.70-src/conf/server.xml
+sed -i "s/port=\"8080\"/port=\"$port\"/" $dir/apache-tomcat-8.5.70/conf/server.xml
 else
 port=8080
 fi
 #creating users in tomcat-users.xml
 
-sed -i 's\</tomcat-users>\<!-- -->\g' apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+sed -i 's\</tomcat-users>\<!-- -->\g' $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
 
 read -p "Do you want to use default username and password for manager_script and manager_gui [enter y/n]:" var3
 
@@ -95,11 +89,11 @@ read -p "Enter password for manager-GUI :" pwd_gui
 
 
 
-echo '<role rolename="manager-gui" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
-echo "<user username=\"$user_gui\" password=\"$pwd_gui\" roles=\"manager-gui\" />" >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
-echo '<role rolename="manager-script" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
-echo "<user username=\"$user_script\" password=\"$pwd_script\" roles=\"manager-script\" />" >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
-echo '</tomcat-users>' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo '<role rolename="manager-gui" />' >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
+echo "<user username=\"$user_gui\" password=\"$pwd_gui\" roles=\"manager-gui\" />" >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
+echo '<role rolename="manager-script" />' >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
+echo "<user username=\"$user_script\" password=\"$pwd_script\" roles=\"manager-script\" />" >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
+echo '</tomcat-users>' >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
 
 
 else
@@ -110,20 +104,26 @@ echo "The default username/password for manager-script are {script/script}"
 
 echo "The default username/password for manager-script are {admin/admin}"
 
-echo '<role rolename="manager-gui" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
-echo '<user username="admin" password="admin" roles="manager-gui" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
-echo '<role rolename="manager-script" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
-echo '<user username="script" password="script" roles="manager-script" />' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
-echo '</tomcat-users>' >> apache-tomcat-8.5.70-src/conf/tomcat-users.xml
+echo '<role rolename="manager-gui" />' >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
+echo '<user username="admin" password="admin" roles="manager-gui" />' >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
+echo '<role rolename="manager-script" />' >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
+echo '<user username="script" password="script" roles="manager-script" />' >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
+echo '</tomcat-users>' >> $dir/apache-tomcat-8.5.70/conf/tomcat-users.xml
 
 fi
 
 #setting valve in comments
 
-sed -i 's/<Valve /<!-- <Valve /' apache-tomcat-8.5.70-src/webapps/manager/META-INF/context.xml
+sed -i 's/<Valve /<!-- <Valve /' $dir/apache-tomcat-8.5.70/webapps/manager/META-INF/context.xml
 
-sed -i 's\:1" />\:1" /> -->\g' apache-tomcat-8.5.70-src/webapps/manager/META-INF/context.xml
+sed -i 's\:1" />\:1" /> -->\g' $dir/apache-tomcat-8.5.70/webapps/manager/META-INF/context.xml
 
+
+
+#running tomcat
+sudo sh $dir/apache-tomcat-8.5.70/bin/startup.sh
+
+echo "tomcat is running on port : $port"
 
 
 #running tomcat
