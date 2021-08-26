@@ -50,10 +50,10 @@ sudo yum install java
 
 
 #downloading tomcat
-wget http://apachemirror.wuchna.com/tomcat/tomcat-8/v8.5.50/bin/apache-tomcat-8.5.50-windows-x64.zip
+https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.70/src/apache-tomcat-8.5.70-src.tar.gz
 
 #unzipping tar file 
-tar -xvzf apache-tomcat-8.5.49.tar.gz
+tar -xvzf apache-tomcat-8.5.70-src.tar.gz
 
 
 read -p "do you want to delete the zip file [enter y/n]:" var1
@@ -63,7 +63,7 @@ y=$(echo $var1 | tr -s '[:upper:]' '[:lower:]')
 if [[ "$var1" = "y" ]] ; then
 
 #remove tomcat downloaded tar file
-rm -rf apache-tomcat-8.5.49.tar.gz
+rm -rf apache-tomcat-8.5.70-src .tar.gz
 fi
 
 read -p "Do you want to change port for tomcat [enter y/n]:" var2
